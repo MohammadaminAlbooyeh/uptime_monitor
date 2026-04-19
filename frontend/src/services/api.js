@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000' })
+const defaultApiUrl = import.meta.env.VITE_API_URL || `${window.location.protocol}//${window.location.hostname}:8000`
+const api = axios.create({ baseURL: defaultApiUrl })
 
 export async function fetchSites(){
   const r = await api.get('/sites')
