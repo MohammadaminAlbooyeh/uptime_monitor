@@ -30,7 +30,7 @@ export default function App(){
                   </linearGradient>
                 </defs>
               </svg>
-            </div>
+              </div>
             <div>
               <p className="eyebrow">Live Observability</p>
               <h1>Uptime Monitor</h1>

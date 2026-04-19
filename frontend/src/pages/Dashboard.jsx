@@ -38,9 +38,20 @@ export default function Dashboard(){
       setError('')
       try {
         const siteList = await fetchSites()
-        setSites(siteList)
-        if (siteList.length > 0) {
-          setSelectedSiteId(siteList[0].id)
+        // ensure Amin's personal site appears first when present
+        const preferredUrl = 'http://showcase-website-amin.s3-website.eu-north-1.amazonaws.com/'
+        const ordered = (() => {
+          const copy = Array.isArray(siteList) ? [...siteList] : []
+          const idx = copy.findIndex(s => s.url === preferredUrl)
+          if (idx > 0) {
+            const [item] = copy.splice(idx, 1)
+            copy.unshift(item)
+          }
+          return copy
+        })()
+        setSites(ordered)
+        if (ordered.length > 0) {
+          setSelectedSiteId(ordered[0].id)
         }
 
         const entries = await Promise.all(
@@ -70,6 +81,16 @@ export default function Dashboard(){
     try {
       await runChecksNow()
       const siteList = await fetchSites()
+      const preferredUrl = 'http://showcase-website-amin.s3-website.eu-north-1.amazonaws.com/'
+      const ordered = (() => {
+        const copy = Array.isArray(siteList) ? [...siteList] : []
+        const idx = copy.findIndex(s => s.url === preferredUrl)
+        if (idx > 0) {
+          const [item] = copy.splice(idx, 1)
+          copy.unshift(item)
+        }
+        return copy
+      })()
       const entries = await Promise.all(
         siteList.map(async (site) => {
           try {
@@ -80,10 +101,10 @@ export default function Dashboard(){
           }
         })
       )
-      setSites(siteList)
+      setSites(ordered)
       setChecksBySite(Object.fromEntries(entries))
-      if (!selectedSiteId && siteList.length > 0) {
-        setSelectedSiteId(siteList[0].id)
+      if (!selectedSiteId && ordered.length > 0) {
+        setSelectedSiteId(ordered[0].id)
       }
     } finally {
       setRefreshing(false)
@@ -117,6 +138,10 @@ export default function Dashboard(){
     : Math.round(
         sites.reduce((sum, site) => sum + computeUptimePercent(checksBySite[site.id] || []), 0) / sites.length
       )
+
+  const uptimeColor = avgUptime === 100 ? 'var(--ok)'
+    : avgUptime >= 90 ? 'var(--warn)'
+    : 'var(--fail)'
 
   return (
     <section className="dashboard-wrap">
@@ -177,14 +202,14 @@ export default function Dashboard(){
             <strong>{totalSites}</strong>
             <small>services online in the watchlist</small>
           </div>
-          <div className="stat-card">
+          <div className="stat-card stat-healthy">
             <span>Healthy</span>
             <strong>{healthySites}</strong>
             <small>{failingSites} currently need attention</small>
           </div>
           <div className="stat-card">
             <span>Uptime</span>
-            <strong>{avgUptime}%</strong>
+            <strong style={{ color: uptimeColor }}>{avgUptime}%</strong>
             <small>average across all sites</small>
           </div>
         </div>

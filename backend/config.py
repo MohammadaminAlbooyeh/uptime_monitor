@@ -4,21 +4,26 @@ from typing import List
 SITES = [
     {
         "id": 1,
+        "name": "Amin Showcase",
+        "url": "http://showcase-website-amin.s3-website.eu-north-1.amazonaws.com/",
+    },
+    {
+        "id": 2,
         "name": "Salary Calculator",
         "url": "https://salary-calculator-five-ecru.vercel.app/",
     },
     {
-        "id": 2,
+        "id": 3,
         "name": "User Auth API",
         "url": "https://user-authentication-api-ashen.vercel.app/",
     },
     {
-        "id": 3,
+        "id": 4,
         "name": "Air Quality + Weather",
         "url": "https://air-quality-index-weather-live.vercel.app/",
     },
     {
-        "id": 4,
+        "id": 5,
         "name": "Job Finder Bot",
         "url": "https://job-finder-bot-tau.vercel.app/",
     },

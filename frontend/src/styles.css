@@ -87,8 +87,9 @@ select {
 }
 
 .app-shell {
-  width: min(1240px, calc(100% - 1rem));
-  margin: 1rem auto 1.5rem;
+  width: min(1100px, calc(100% - 2rem));
+  margin: 24px auto;
+  padding: 0 1rem;
 }
 
 .topbar {
@@ -143,28 +144,45 @@ select {
 .theme-light .primary-action { color: #fff }
 .theme-light .site-card { background: linear-gradient(180deg, rgba(250,250,252,0.8), rgba(250,250,252,0.75)); }
 
-.subtitle {
-  max-width: 64ch;
+.stat-card {
+  min-height: 100%;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.28rem;
+}
+
+.stat-card span {
   color: var(--muted);
-  line-height: 1.55;
-}
-
-.header-chip {
-  min-width: 180px;
-  padding: 0.85rem 0.95rem;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(126, 203, 255, 0.08), rgba(255, 255, 255, 0.03));
-}
-
-.header-chip-label {
   display: block;
-  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.28rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: clamp(1.25rem, 3vw, 1.9rem);
+  line-height: 1;
+  margin: 0;
+}
+
+/* animate color changes for uptime */
+.stat-card strong {
+  transition: color 220ms ease;
+}
+
+.stat-card small {
+  color: var(--muted);
+  display: block;
+  margin-top: 0.18rem;
+  font-size: 0.78rem;
+}
 }
 
 .header-chip strong {
@@ -181,16 +199,16 @@ select {
 
 .dashboard-grid {
   display: grid;
-  gap: 0.9rem;
+  gap: 0.6rem;
 }
 
 .card {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 14px;
-  padding: 1rem;
-  box-shadow: 0 8px 26px rgba(6, 12, 24, 0.5);
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 6px 18px rgba(6, 12, 24, 0.38);
 }
 
 .hero-panel {
@@ -278,7 +296,12 @@ select {
 .hero-note {
   flex-direction: column;
   align-items: flex-start;
-  padding: 0.68rem 0.9rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(2,8,20,0.05);
+  min-width: 160px;
 }
 
 .hero-note-label,
@@ -291,7 +314,8 @@ select {
 }
 
 .hero-note strong {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
+  color: var(--text-strong);
 }
 
 .hero-stats {
@@ -300,43 +324,50 @@ select {
   gap: 0.7rem;
 }
 
-.stat-card {
-  min-height: 100%;
-  border-radius: 12px;
-  padding: 0.85rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+.site-card {
+  width: 100%;
+  text-align: left;
   border: 1px solid rgba(255,255,255,0.04);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  color: inherit;
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
-
 .stat-card span,
 .stat-card small {
   color: var(--muted);
+  display: block;
 }
 
 .stat-card strong {
+  display: block;
   font-size: clamp(1.65rem, 4vw, 2.35rem);
   line-height: 1;
-  margin: 0.35rem 0 0.45rem;
+  margin: 0.25rem 0 0.45rem;
 }
 
 .stat-accent {
   background: linear-gradient(180deg, rgba(126, 203, 255, 0.11), rgba(255, 255, 255, 0.03));
 }
 
+/* Healthy stat: make the numeric value green */
+.stat-card.stat-healthy strong {
+  color: var(--ok);
+}
+
 .metric-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .metric-row > div {
-  border-radius: 18px;
-  padding: 0.92rem;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 0.7rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .metric-label {
@@ -397,8 +428,8 @@ select {
 
 .site-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
 }
 
 .site-card {
@@ -542,6 +573,8 @@ a:hover { text-decoration: underline; }
 .brand-row { display: flex; gap: 0.9rem; align-items: center; }
 .brand { width: 48px; height: 48px; display:flex; align-items:center; justify-content:center; border-radius:10px; box-shadow: 0 6px 18px rgba(12,20,36,0.5); }
 .brand svg { border-radius:8px; }
+
+/* personal showcase link removed */
 
 /* responsiveness for Pi small screens */
 @media (max-width: 720px) {
