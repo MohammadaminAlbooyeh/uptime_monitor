@@ -67,9 +67,9 @@ def get_checks(site_id: int):
 @app.post("/check-now")
 def check_now():
     # lightweight endpoint to trigger immediate checks (for testing)
-    from .config import SITES
-    from .checker import check_site
-    from .database import SessionLocal, record_check
+    from backend.config import SITES
+    from backend.checker import check_site
+    from backend.database import SessionLocal, record_check
     import asyncio
 
     db = SessionLocal()
