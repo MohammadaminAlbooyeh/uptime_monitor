@@ -275,7 +275,16 @@ export default function Dashboard(){
               <div className="detail-hero">
                 <div>
                   <span className="detail-label">Endpoint</span>
-                  <strong>{selectedSite.url}</strong>
+                  <strong>
+                    <a
+                      href={selectedSite.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="endpoint-link"
+                    >
+                      {selectedSite.url}
+                    </a>
+                  </strong>
                 </div>
                 <div>
                   <span className="detail-label">Latest check</span>
