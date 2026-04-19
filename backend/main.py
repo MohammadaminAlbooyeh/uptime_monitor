@@ -1,10 +1,19 @@
+import os
+import sys
+from pathlib import Path
+
+# Ensure repo root is on sys.path so `python main.py` works when run from `backend/` on Pi
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from .database import init_db, SessionLocal, list_sites, create_site_if_not_exists, record_check, recent_checks_for_site
-from .schemas import SiteCreate, SiteOut, CheckOut
-from .config import SITES
-from .scheduler import start_scheduler
+from backend.database import init_db, SessionLocal, list_sites, create_site_if_not_exists, record_check, recent_checks_for_site
+from backend.schemas import SiteCreate, SiteOut, CheckOut
+from backend.config import SITES
+from backend.scheduler import start_scheduler
 
 app = FastAPI(title="Uptime Monitor API")
 
