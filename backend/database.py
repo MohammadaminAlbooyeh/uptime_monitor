@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .models import Base, Site, Check
+from models import Base, Site, Check
 import os
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./uptime.db")

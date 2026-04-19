@@ -10,10 +10,17 @@ if str(ROOT) not in sys.path:
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+<<<<<<< HEAD
 from backend.database import init_db, SessionLocal, list_sites, create_site_if_not_exists, record_check, recent_checks_for_site
 from backend.schemas import SiteCreate, SiteOut, CheckOut
 from backend.config import SITES
 from backend.scheduler import start_scheduler
+=======
+from database import init_db, SessionLocal, list_sites, create_site_if_not_exists, record_check, recent_checks_for_site
+from .schemas import SiteCreate, SiteOut, CheckOut
+from .config import SITES
+from .scheduler import start_scheduler
+>>>>>>> 55ca779 (fixed backend)
 
 app = FastAPI(title="Uptime Monitor API")
 
