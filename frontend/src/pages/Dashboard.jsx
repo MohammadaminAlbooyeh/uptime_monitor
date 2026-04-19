@@ -119,7 +119,35 @@ export default function Dashboard(){
       )
 
   return (
-    <section className="dashboard-grid">
+    <section className="dashboard-wrap">
+      <div className="top-metrics">
+        <div className="metric-card">
+          <div className="metric-item">
+            <small>Activity Monitoring</small>
+            <strong>42</strong>
+          </div>
+        </div>
+        <div className="metric-card">
+          <div className="metric-item">
+            <small>Status Pages</small>
+            <strong>4</strong>
+          </div>
+        </div>
+        <div className="metric-card">
+          <div className="metric-item">
+            <small>Number of Incidents</small>
+            <strong>12</strong>
+          </div>
+        </div>
+        <div className="metric-card">
+          <div className="metric-item">
+            <small>Global Uptime</small>
+            <strong>99.28%</strong>
+          </div>
+        </div>
+      </div>
+
+      <section className="dashboard-grid">
       <div className="hero-panel card">
         <div className="hero-copy">
           <div className="hero-badge-row">
@@ -239,5 +267,6 @@ export default function Dashboard(){
         </aside>
       </div>
     </section>
+  </section>
   )
 }
