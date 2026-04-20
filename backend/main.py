@@ -19,12 +19,10 @@ app = FastAPI(title="Uptime Monitor API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://[::1]:5173",
-    ],
-    allow_origin_regex=r"http://.*:5173",
+    # During Pi deployment allow the frontend origin to reach the API.
+    # In dev this permits common local dev hosts; for simple Pi deployments
+    # allow all origins. Review before production and restrict origins.
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
