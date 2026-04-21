@@ -114,6 +114,8 @@ export default function Dashboard(){
   const selectedSite = sites.find((item) => item.id === selectedSiteId) || null
   const selectedChecks = selectedSite ? checksBySite[selectedSite.id] || [] : []
   const selectedUptime = computeUptimePercent(selectedChecks)
+  const selectedUpCount = selectedChecks ? selectedChecks.filter((c) => c.status === 'OK').length : 0
+  const selectedDownCount = selectedChecks ? selectedChecks.filter((c) => c.status !== 'OK').length : 0
   const selectedIncidents = selectedSite ? computeIncidents(selectedChecks, selectedSite.name) : []
   const selectedResponseSeries = selectedChecks
     .filter((item) => typeof item.response_time_ms === 'number')
@@ -289,6 +291,20 @@ export default function Dashboard(){
                 <div>
                   <span className="detail-label">Latest check</span>
                   <strong>{latestCheckTime}</strong>
+                </div>
+              </div>
+              <div className="detail-stats" style={{display: 'flex', gap: '1rem', margin: '0.75rem 0'}}>
+                <div className="stat-mini">
+                  <small>Up</small>
+                  <strong style={{color: 'var(--ok)'}}>{selectedUpCount}</strong>
+                </div>
+                <div className="stat-mini">
+                  <small>Down</small>
+                  <strong style={{color: 'var(--fail)'}}>{selectedDownCount}</strong>
+                </div>
+                <div className="stat-mini">
+                  <small>Uptime</small>
+                  <strong>{selectedUptime}%</strong>
                 </div>
               </div>
               <UptimeBar percent={selectedUptime} />
