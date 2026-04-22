@@ -25,8 +25,8 @@ export default function App(){
                 <path d="M7 13c1.333-2 3.333-3 5-3s3.667 1 5 3" stroke="#021427" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                 <defs>
                   <linearGradient id="g" x1="0" x2="1">
-                    <stop offset="0" stopColor="#7ecbff" />
-                    <stop offset="1" stopColor="#b59cff" />
+                    <stop offset="0" stopColor="#ff6b6b" />
+                    <stop offset="1" stopColor="#ff922b" />
                   </linearGradient>
                 </defs>
               </svg>

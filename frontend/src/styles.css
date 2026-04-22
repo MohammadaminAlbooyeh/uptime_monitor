@@ -87,9 +87,9 @@ select {
 }
 
 .app-shell {
-  width: min(1100px, calc(100% - 2rem));
+  width: min(1100px, calc(100% - 4rem));
   margin: 24px auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
 }
 
 .topbar {
@@ -277,15 +277,13 @@ select {
   color: #021427;
   font-weight: 700;
   cursor: pointer;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  box-shadow: 0 8px 20px rgba(88, 150, 220, 0.14);
-  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+  background: linear-gradient(90deg, #ff6b6b, #ff922b);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.2);
 }
 
 .primary-action:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.01);
-  filter: brightness(1.04);
-  box-shadow: 0 16px 36px rgba(88, 150, 220, 0.18);
+  filter: brightness(1.08);
+  box-shadow: 0 12px 28px rgba(255, 107, 107, 0.3);
 }
 
 .primary-action:disabled {
