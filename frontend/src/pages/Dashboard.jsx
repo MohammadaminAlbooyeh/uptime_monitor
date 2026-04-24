@@ -1,322 +1,205 @@
 import React, {useEffect, useState} from 'react'
-import SiteCard from '../components/SiteCard'
 import ResponseChart from '../components/ResponseChart'
-import UptimeBar from '../components/UptimeBar'
 import IncidentTable from '../components/IncidentTable'
 import {fetchChecks, fetchSites, runChecksNow} from '../services/api'
 
-function computeUptimePercent(checks){
-  if (!checks || checks.length === 0) return 100
-  const okCount = checks.filter((item) => item.status === 'OK').length
-  return Math.round((okCount / checks.length) * 100)
+function uptimePercent(checks){
+  if (!checks?.length) return 100
+  return Math.round(checks.filter(c => c.status === 'OK').length / checks.length * 100)
 }
 
-function computeIncidents(checks, siteName){
-  if (!checks || checks.length === 0) return []
-  return checks
-    .filter((item) => item.status === 'FAIL')
-    .slice(0, 8)
-    .map((item) => ({
-      when: new Date(item.timestamp).toLocaleString(),
-      site: siteName,
-      duration: 'n/a',
-      statusCode: item.status_code ?? 'timeout',
-    }))
+function statusOf(checks){
+  const s = checks?.[0]?.status
+  if (!s) return 'unknown'
+  return s === 'OK' ? 'ok' : 'fail'
 }
 
 export default function Dashboard(){
   const [sites, setSites] = useState([])
   const [checksBySite, setChecksBySite] = useState({})
-  const [selectedSiteId, setSelectedSiteId] = useState(null)
+  const [selectedId, setSelectedId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [refreshing, setRefreshing] = useState(false)
 
-  useEffect(()=>{
-    async function load(){
-      setLoading(true)
-      setError('')
-      try {
-        const siteList = await fetchSites()
-        // ensure Amin's personal site appears first when present
-        const preferredUrl = 'http://showcase-website-amin.s3-website.eu-north-1.amazonaws.com/'
-        const ordered = (() => {
-          const copy = Array.isArray(siteList) ? [...siteList] : []
-          const idx = copy.findIndex(s => s.url === preferredUrl)
-          if (idx > 0) {
-            const [item] = copy.splice(idx, 1)
-            copy.unshift(item)
-          }
-          return copy
-        })()
-        setSites(ordered)
-        if (ordered.length > 0) {
-          setSelectedSiteId(ordered[0].id)
-        }
-
-        const entries = await Promise.all(
-          siteList.map(async (site) => {
-            try {
-              const checks = await fetchChecks(site.id)
-              return [site.id, checks]
-            } catch {
-              return [site.id, []]
-            }
-          })
-        )
-        setChecksBySite(Object.fromEntries(entries))
-      } catch {
-        setError('Could not reach backend. Showing empty state.')
-        setSites([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    load()
-  },[])
-
-  async function handleRefresh(){
-    setRefreshing(true)
+  async function loadData(){
     try {
-      await runChecksNow()
       const siteList = await fetchSites()
-      const preferredUrl = 'http://showcase-website-amin.s3-website.eu-north-1.amazonaws.com/'
       const ordered = (() => {
         const copy = Array.isArray(siteList) ? [...siteList] : []
-        const idx = copy.findIndex(s => s.url === preferredUrl)
-        if (idx > 0) {
-          const [item] = copy.splice(idx, 1)
-          copy.unshift(item)
-        }
+        const idx = copy.findIndex(s => s.url === 'http://showcase-website-amin.s3-website.eu-north-1.amazonaws.com/')
+        if (idx > 0) { const [item] = copy.splice(idx,1); copy.unshift(item) }
         return copy
       })()
+      setSites(ordered)
+      if (ordered.length > 0 && !selectedId) setSelectedId(ordered[0].id)
       const entries = await Promise.all(
-        siteList.map(async (site) => {
-          try {
-            const checks = await fetchChecks(site.id)
-            return [site.id, checks]
-          } catch {
-            return [site.id, []]
-          }
+        siteList.map(async site => {
+          try { return [site.id, await fetchChecks(site.id)] } catch { return [site.id, []] }
         })
       )
-      setSites(ordered)
       setChecksBySite(Object.fromEntries(entries))
-      if (!selectedSiteId && ordered.length > 0) {
-        setSelectedSiteId(ordered[0].id)
-      }
-    } finally {
-      setRefreshing(false)
+    } catch {
+      setError('Could not reach backend.')
+      setSites([])
     }
   }
 
-  const selectedSite = sites.find((item) => item.id === selectedSiteId) || null
-  const selectedChecks = selectedSite ? checksBySite[selectedSite.id] || [] : []
-  const selectedUptime = computeUptimePercent(selectedChecks)
-  const selectedUpCount = selectedChecks ? selectedChecks.filter((c) => c.status === 'OK').length : 0
-  const selectedDownCount = selectedChecks ? selectedChecks.filter((c) => c.status !== 'OK').length : 0
-  const selectedIncidents = selectedSite ? computeIncidents(selectedChecks, selectedSite.name) : []
-  const selectedResponseSeries = selectedChecks
-    .filter((item) => typeof item.response_time_ms === 'number')
-    .slice(0, 20)
-    .reverse()
-    .map((item) => Math.round(item.response_time_ms))
-  const latestCheckTime = selectedChecks[0]?.timestamp
-    ? new Date(selectedChecks[0].timestamp).toLocaleString()
-    : 'No checks yet'
+  useEffect(() => {
+    setLoading(true)
+    loadData().finally(() => setLoading(false))
+  }, [])
 
-  const totalSites = sites.length
-  const healthySites = sites.filter((site) => {
-    const checks = checksBySite[site.id] || []
-    return checks[0]?.status === 'OK'
-  }).length
-  const failingSites = sites.filter((site) => {
-    const checks = checksBySite[site.id] || []
-    return checks[0] && checks[0].status !== 'OK'
-  }).length
-  const avgUptime = sites.length === 0
-    ? 100
-    : Math.round(
-        sites.reduce((sum, site) => sum + computeUptimePercent(checksBySite[site.id] || []), 0) / sites.length
-      )
+  async function handleRefresh(){
+    setRefreshing(true)
+    try { await runChecksNow(); await loadData() } finally { setRefreshing(false) }
+  }
 
-  const uptimeColor = avgUptime === 100 ? 'var(--ok)'
-    : avgUptime >= 90 ? 'var(--warn)'
-    : 'var(--fail)'
+  const allOk = sites.every(s => statusOf(checksBySite[s.id] || []) !== 'fail')
+  const healthyCount = sites.filter(s => statusOf(checksBySite[s.id] || []) === 'ok').length
+  const failCount = sites.filter(s => statusOf(checksBySite[s.id] || []) === 'fail').length
+  const avgUptime = sites.length === 0 ? 100
+    : Math.round(sites.reduce((sum,s) => sum + uptimePercent(checksBySite[s.id] || []), 0) / sites.length)
+
+  const selected = sites.find(s => s.id === selectedId) || null
+  const selChecks = selected ? checksBySite[selected.id] || [] : []
+  const selUptime = uptimePercent(selChecks)
+  const selStatus = statusOf(selChecks)
+  const selLatency = selChecks[0]?.response_time_ms ? Math.round(selChecks[0].response_time_ms) : null
+  const selUp = selChecks.filter(c => c.status === 'OK').length
+  const selDown = selChecks.filter(c => c.status !== 'OK').length
+  const selLastCheck = selChecks[0]?.timestamp ? new Date(selChecks[0].timestamp).toLocaleString() : '—'
+  const selSeries = selChecks.filter(c => typeof c.response_time_ms === 'number').slice(0,20).reverse().map(c => Math.round(c.response_time_ms))
+  const selIncidents = selChecks.filter(c => c.status === 'FAIL').slice(0,8).map(c => ({
+    when: new Date(c.timestamp).toLocaleString(),
+    site: selected?.name,
+    duration: 'n/a',
+    statusCode: c.status_code ?? 'timeout',
+  }))
 
   return (
-    <section className="dashboard-wrap">
-      <div className="top-metrics">
-        <div className="metric-card">
-          <div className="metric-item">
-            <small>Activity Monitoring</small>
-            <strong>42</strong>
-          </div>
+    <>
+      {/* Status Banner */}
+      <div className={`status-banner ${allOk ? 'all-ok' : 'has-issues'}`}>
+        <span className="status-banner-dot" />
+        {allOk ? 'All systems operational' : `${failCount} monitor${failCount > 1 ? 's' : ''} down`}
+        <span className="status-banner-meta">
+          {loading ? 'Syncing...' : `${sites.length} monitors · avg ${avgUptime}% uptime`}
+        </span>
+      </div>
+
+      {/* Summary Stats */}
+      <div className="summary-stats">
+        <div className="stat-box">
+          <div className="stat-box-label">Total Monitors</div>
+          <div className="stat-box-value">{sites.length}</div>
         </div>
-        <div className="metric-card">
-          <div className="metric-item">
-            <small>Status Pages</small>
-            <strong>4</strong>
-          </div>
+        <div className="stat-box">
+          <div className="stat-box-label">Up</div>
+          <div className="stat-box-value ok">{healthyCount}</div>
         </div>
-        <div className="metric-card">
-          <div className="metric-item">
-            <small>Number of Incidents</small>
-            <strong>12</strong>
-          </div>
+        <div className="stat-box">
+          <div className="stat-box-label">Down</div>
+          <div className="stat-box-value fail">{failCount || '0'}</div>
         </div>
-        <div className="metric-card">
-          <div className="metric-item">
-            <small>Global Uptime</small>
-            <strong>99.28%</strong>
-          </div>
+        <div className="stat-box">
+          <div className="stat-box-label">Avg Uptime</div>
+          <div className="stat-box-value">{avgUptime}%</div>
         </div>
       </div>
 
-      <section className="dashboard-grid">
-      <div className="hero-panel card">
-        <div className="hero-copy">
-          <div className="hero-badge-row">
-            <span className="live-pill">
-              <span className="pulse-dot" />
-              Real-time monitoring
-            </span>
-            <span className="hero-meta">Auto refresh every 60s</span>
-          </div>
-          <p>
-            Watch response times, downtime incidents, and uptime health in a single screen designed to feel alive.
-          </p>
-          <div className="hero-actions">
-            <button type="button" className="primary-action" onClick={handleRefresh} disabled={refreshing}>
-              {refreshing ? 'Refreshing...' : 'Run live check'}
+      {/* Monitor List */}
+      <div className="monitor-list-header">
+        <h2>Monitors</h2>
+        {error && <span className="error-text">{error}</span>}
+      </div>
+
+      <div className="monitor-list">
+        {sites.length === 0 && !loading && (
+          <div style={{padding:'20px 16px'}} className="muted">No monitors configured yet.</div>
+        )}
+        {sites.map(site => {
+          const checks = checksBySite[site.id] || []
+          const st = statusOf(checks)
+          const up = uptimePercent(checks)
+          const ms = checks[0]?.response_time_ms ? Math.round(checks[0].response_time_ms) : null
+          const barClass = up >= 90 ? '' : up >= 70 ? 'warn' : 'fail'
+          return (
+            <div
+              key={site.id}
+              className={`monitor-row ${site.id === selectedId ? 'active' : ''}`}
+              onClick={() => setSelectedId(site.id)}
+            >
+              <span className={`monitor-status-dot ${st}`} />
+              <div>
+                <div className="monitor-name">{site.name}</div>
+                <div className="monitor-url">{site.url}</div>
+              </div>
+              <div className="monitor-uptime-col">
+                <div className="monitor-uptime-label">{up}% uptime</div>
+                <div className="mini-bar-track">
+                  <div className={`mini-bar-fill ${barClass}`} style={{width:`${up}%`}} />
+                </div>
+              </div>
+              <div className="monitor-response">
+                {ms ? `${ms} ms` : '—'}
+                <small>response</small>
+              </div>
+              <span className={`monitor-badge ${st}`}>{st.toUpperCase()}</span>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Detail Panel */}
+      {selected && (
+        <div className="detail-panel">
+          <div className="detail-panel-header">
+            <div>
+              <div className="detail-panel-title">{selected.name}</div>
+              <div className="detail-panel-url">
+                <a href={selected.url} target="_blank" rel="noopener noreferrer">{selected.url}</a>
+              </div>
+            </div>
+            <button className="btn btn-primary" onClick={handleRefresh} disabled={refreshing}>
+              {refreshing ? 'Checking...' : 'Check now'}
             </button>
-            <div className="hero-note">
-              <span className="hero-note-label">Selected site</span>
-              <strong>{selectedSite ? selectedSite.name : 'None yet'}</strong>
-            </div>
           </div>
-        </div>
-
-        <div className="hero-stats">
-          <div className="stat-card stat-accent">
-            <span>Tracked</span>
-            <strong>{totalSites}</strong>
-            <small>services online in the watchlist</small>
-          </div>
-          <div className="stat-card stat-healthy">
-            <span>Healthy</span>
-            <strong>{healthySites}</strong>
-            <small>{failingSites} currently need attention</small>
-          </div>
-          <div className="stat-card">
-            <span>Uptime</span>
-            <strong style={{ color: uptimeColor }}>{avgUptime}%</strong>
-            <small>average across all sites</small>
-          </div>
-        </div>
-      </div>
-
-      <div className="summary-row card metric-row">
-        <div>
-          <p className="metric-label">Tracked Sites</p>
-          <p className="metric-value">{totalSites}</p>
-        </div>
-        <div>
-          <p className="metric-label">Healthy Now</p>
-          <p className="metric-value success">{healthySites}</p>
-        </div>
-        <div>
-          <p className="metric-label">Average Uptime</p>
-          <p className="metric-value">{avgUptime}%</p>
-        </div>
-        <div>
-          <p className="metric-label">Selected Latency</p>
-          <p className="metric-value metric-compact">{selectedResponseSeries[0] ? `${selectedResponseSeries[0]} ms` : '—'}</p>
-        </div>
-      </div>
-
-      <div className="workspace-grid">
-        <div className="card site-stack-panel">
-          <div className="section-head">
-            <div>
-              <p className="section-kicker">Watchlist</p>
-              <h2>Sites</h2>
-            </div>
-            <div className="section-head-actions">
-              {loading && <span className="badge">Syncing...</span>}
-              <span className="badge">{sites.length} live targets</span>
-            </div>
-          </div>
-          {error && <p className="error-text">{error}</p>}
-          {sites.length === 0 && !loading && <p className="muted">No sites configured yet.</p>}
-          <div className="site-grid">
-            {sites.map((site) => (
-              <SiteCard
-                key={site.id}
-                site={site}
-                checks={checksBySite[site.id] || []}
-                isActive={site.id === selectedSiteId}
-                onSelect={() => setSelectedSiteId(site.id)}
-              />
-            ))}
-          </div>
-        </div>
-
-        <aside className="card detail-panel">
-          <div className="section-head">
-            <div>
-              <p className="section-kicker">Focus mode</p>
-              <h2>{selectedSite ? selectedSite.name : 'Site Detail'}</h2>
-            </div>
-            <span className="badge">Last 20 checks</span>
-          </div>
-
-          {selectedSite ? (
-            <>
-              <div className="detail-hero">
-                <div>
-                  <span className="detail-label">Endpoint</span>
-                  <strong>
-                    <a
-                      href={selectedSite.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="endpoint-link"
-                    >
-                      {selectedSite.url}
-                    </a>
-                  </strong>
-                </div>
-                <div>
-                  <span className="detail-label">Latest check</span>
-                  <strong>{latestCheckTime}</strong>
-                </div>
+          <div className="detail-panel-body">
+            <div className="detail-stats">
+              <div className="detail-stat">
+                <div className="detail-stat-label">Status</div>
+                <div className={`detail-stat-value ${selStatus}`}>{selStatus.toUpperCase()}</div>
               </div>
-              <div className="detail-stats" style={{display: 'flex', gap: '1rem', margin: '0.75rem 0'}}>
-                <div className="stat-mini">
-                  <small>Up</small>
-                  <strong style={{color: 'var(--ok)'}}>{selectedUpCount}</strong>
-                </div>
-                <div className="stat-mini">
-                  <small>Down</small>
-                  <strong style={{color: 'var(--fail)'}}>{selectedDownCount}</strong>
-                </div>
-                <div className="stat-mini">
-                  <small>Uptime</small>
-                  <strong>{selectedUptime}%</strong>
-                </div>
+              <div className="detail-stat">
+                <div className="detail-stat-label">Uptime</div>
+                <div className="detail-stat-value">{selUptime}%</div>
               </div>
-              <UptimeBar percent={selectedUptime} />
-              <ResponseChart data={selectedResponseSeries} />
-              <IncidentTable incidents={selectedIncidents} />
-            </>
-          ) : (
-            <p className="muted">Select a site to view details.</p>
-          )}
-        </aside>
-      </div>
-    </section>
-  </section>
+              <div className="detail-stat">
+                <div className="detail-stat-label">Response</div>
+                <div className="detail-stat-value">{selLatency ? `${selLatency} ms` : '—'}</div>
+              </div>
+              <div className="detail-stat">
+                <div className="detail-stat-label">Last Check</div>
+                <div className="detail-stat-value" style={{fontSize:'0.82rem'}}>{selLastCheck}</div>
+              </div>
+            </div>
+
+            <div className="uptime-bar-wrap">
+              <div className="uptime-bar-head">
+                <span>Uptime ({selChecks.length} checks)</span>
+                <span>{selUp} up · {selDown} down</span>
+              </div>
+              <div className="uptime-bar-track">
+                <div className="uptime-bar-fill" style={{width:`${selUptime}%`}} />
+              </div>
+            </div>
+
+            <ResponseChart data={selSeries} />
+            <IncidentTable incidents={selIncidents} />
+          </div>
+        </div>
+      )}
+    </>
   )
 }

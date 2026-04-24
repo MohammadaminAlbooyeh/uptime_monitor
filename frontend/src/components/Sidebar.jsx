@@ -7,6 +7,7 @@ export default function Sidebar({active='Dashboard'}){
     {label: 'Status Pages', icon: '📄'},
     {label: 'Teams', icon: '👥'},
     {label: 'Settings', icon: '⚙️'},
+    {label: 'Telegram Bot', icon: '🤖', link: 'https://t.me/MAmin_weatherbot'},
   ]
 
   return (
@@ -16,10 +17,17 @@ export default function Sidebar({active='Dashboard'}){
         <ul className="nav-list">
           {items.map(it => (
             <li key={it.label} className={`nav-item ${it.label===active? 'active':''}`}>
-              <button className="nav-btn">
-                <span className="nav-ico" aria-hidden>{it.icon}</span>
-                <span className="nav-label">{it.label}</span>
-              </button>
+              {it.link ? (
+                <a href={it.link} target="_blank" rel="noopener noreferrer" className="nav-btn" style={{textDecoration: 'none', color: 'inherit'}}>
+                  <span className="nav-ico" aria-hidden>{it.icon}</span>
+                  <span className="nav-label">{it.label}</span>
+                </a>
+              ) : (
+                <button className="nav-btn">
+                  <span className="nav-ico" aria-hidden>{it.icon}</span>
+                  <span className="nav-label">{it.label}</span>
+                </button>
+              )}
             </li>
           ))}
         </ul>

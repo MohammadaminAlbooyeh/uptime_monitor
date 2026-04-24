@@ -38,7 +38,7 @@ def startup_event():
 def get_sites():
     db = SessionLocal()
     try:
-        return db.query.__self__ if False else SITES
+        return list_sites(db)
     finally:
         db.close()
 
@@ -66,19 +66,19 @@ def get_checks(site_id: int):
 @app.post("/check-now")
 def check_now():
     # lightweight endpoint to trigger immediate checks (for testing)
-    from backend.config import SITES
     from backend.checker import check_site
-    from backend.database import SessionLocal, record_check
+    from backend.database import SessionLocal, record_check, list_sites
     import asyncio
 
     db = SessionLocal()
     results = []
     try:
+        db_sites = list_sites(db)
         async def run_all():
-            for s in SITES:
-                res = await check_site(s["url"])
-                record_check(db, s["id"], res["status"], res.get("response_time_ms"), res.get("status_code"))
-                results.append({"site": s, "result": res})
+            for s in db_sites:
+                res = await check_site(s.url)
+                record_check(db, s.id, res["status"], res.get("response_time_ms"), res.get("status_code"))
+                results.append({"site": {"id": s.id, "name": s.name, "url": s.url}, "result": res})
         asyncio.run(run_all())
         return JSONResponse(content={"ok": True, "results": results})
     finally:

@@ -33,12 +33,12 @@ def start_scheduler():
 
 
 def _check_all():
-    # run checks for configured sites
+    # run checks for all sites present in the database (uses actual DB ids)
     db = SessionLocal()
     try:
-        sites = [ {"id": s.id, "name": s.name, "url": s.url} for s in db.query.__self__.query.__self__ ]
-        # fallback: use config SITES
-        sites = SITES
+        from backend.database import list_sites
+        db_sites = list_sites(db)
+        sites = [{"id": s.id, "name": s.name, "url": s.url} for s in db_sites]
         for s in sites:
             _run_check_sync(s)
     finally:
