@@ -1,0 +1,405 @@
+INFO:     Will watch for changes in these directories: ['/Users/amin/Documents/MyProjects/uptime_monitor']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [42662] using WatchFiles
+/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:386: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+INFO:     Started server process [42665]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60285 - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60381 - "GET /sites HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60445 - "DELETE /sites/999 HTTP/1.1" 404 Not Found
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:02:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:03:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:04:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:05:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:06:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:07:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:08:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:09:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:10:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:11:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:12:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:13:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:14:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:15:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+Job "start_scheduler.<locals>.<lambda> (trigger: interval[0:01:00], next run at: 2026-05-08 10:16:41 CEST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/.venv/lib/python3.12/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 40, in <lambda>
+    scheduler.add_job(lambda: _check_all(), 'interval', seconds=CHECK_INTERVAL_SECONDS, id='uptime-check-all')
+                              ^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 51, in _check_all
+    _run_check_sync(s)
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/scheduler.py", line 28, in _run_check_sync
+    asyncio.run(broadcast_check(site["id"], check_data))
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/amin/Documents/MyProjects/uptime_monitor/backend/main.py", line 36, in broadcast_check
+    for ws in ws_clients:
+              ^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'ws_clients' where it is not associated with a value
+INFO:     connection closed
+INFO:     127.0.0.1:56028 - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:56027 - "GET /sites HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56032 - "GET /sites/3/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56027 - "GET /sites/1/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET /sites/6/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56037 - "GET /sites/5/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56034 - "GET /sites/4/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56030 - "GET /sites/2/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56032 - "GET /sites HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET /sites/3/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56032 - "GET /sites/1/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56034 - "GET /sites/4/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56030 - "GET /sites/2/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56037 - "GET /sites/5/checks?hours=24 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56027 - "GET /sites/6/checks?hours=24 HTTP/1.1" 200 OK

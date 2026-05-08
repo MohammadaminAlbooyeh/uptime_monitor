@@ -1,0 +1,14 @@
+
+> uptime-monitor-frontend@0.1.0 start
+> vite --port 5173
+
+
+  VITE v8.0.8  ready in 577 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+9:58:58 AM [vite] (client) page reload src/services/api.js
+10:00:02 AM [vite] (client) page reload src/pages/Dashboard.jsx
+10:00:03 AM [vite] (client) ✨ new dependencies optimized: recharts
+10:00:03 AM [vite] (client) ✨ optimized dependencies changed. reloading
+10:00:32 AM [vite] (client) hmr update /src/styles.css

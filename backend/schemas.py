@@ -23,4 +23,8 @@ class CheckOut(BaseModel):
     status_code: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class DeleteResponse(BaseModel):
+    ok: bool

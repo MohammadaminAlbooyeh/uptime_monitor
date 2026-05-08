@@ -44,5 +44,19 @@ def list_sites(db):
     return db.query(Site).all()
 
 
-def recent_checks_for_site(db, site_id, limit=50):
-    return db.query(Check).filter(Check.site_id == site_id).order_by(Check.timestamp.desc()).limit(limit).all()
+def recent_checks_for_site(db, site_id, limit=50, hours=None):
+    q = db.query(Check).filter(Check.site_id == site_id)
+    if hours:
+        from datetime import datetime, timedelta
+        q = q.filter(Check.timestamp >= datetime.utcnow() - timedelta(hours=hours))
+    return q.order_by(Check.timestamp.desc()).limit(limit).all()
+
+
+def delete_site(db, site_id):
+    site = db.query(Site).filter(Site.id == site_id).first()
+    if not site:
+        return None
+    db.query(Check).filter(Check.site_id == site_id).delete()
+    db.delete(site)
+    db.commit()
+    return site
